@@ -1,0 +1,31 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 25.11.0
+    hooks:
+      - id: black
+        language_version: python3.14
+
+  - repo: https://github.com/PyCQA/pylint
+    rev: v4.0.3
+    hooks:
+      - id: pylint
+        additional_dependencies:
+          - pylint==4.0.3
+        args:
+          - "--rcfile=.pylintrc"
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        name: isort (sort imports)
+        language_version: python3.14
+        args:
+          - "--profile=black"

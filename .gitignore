@@ -1,0 +1,24 @@
+# Carpetas de caché
+__pycache__/
+*.pyc
+
+# Configuración de VS Code
+.vscode/
+
+# Archivos temporales de sistema operativo
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Archivos generados por Docker
+*.pid
+
+# Variables de entorno
+.env
+.venv
+
+# Archivos de datos
+**/*.csv
+**/*.json
+

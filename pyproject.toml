@@ -1,0 +1,20 @@
+[project]
+name = "fiware_actuators_setup"
+version = "0.1.0"
+description = "Utilities for managing FIWARE actuators."
+readme = "README.md"
+requires-python = ">=3.14"
+authors = [
+  { name = "Marco Alice" }
+]
+
+[project.optional-dependencies]
+dev = [
+  "black==25.11.0",
+  "pylint==4.0.3",
+  "pre-commit==4.4.0"
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py314"]

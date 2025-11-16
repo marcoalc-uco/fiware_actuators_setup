@@ -1,0 +1,60 @@
+[MASTER]
+ignore = .venv,venv,build,dist,__pycache__,.git,.mypy_cache,.pytest_cache,htmlcov
+ignore-patterns = ^setup\.py$,^docs/.*,^notebooks/.*,^data/raw/.*
+load-plugins =
+    pylint.extensions.docparams,
+    pylint.extensions.mccabe,
+    pylint.extensions.set_membership
+extension-pkg-allow-list = pandas,numpy
+persistent = yes
+jobs = 0
+
+[MESSAGES CONTROL]
+disable =
+    C0415,   # allow imports inside functions
+    W1203,   # allow f-strings in logging
+    W1510    # subprocess-run-check
+
+[REPORTS]
+output-format = colorized
+score = yes
+fail-under = 8.5
+
+[FORMAT]
+max-line-length = 88
+indent-string = '    '
+expected-line-ending-format = LF
+
+[BASIC]
+good-names = i,j,k,x,y,z,df,db,np,pd,id,ok,fn,ex
+bad-names = foo,bar,baz
+function-rgx = [a-z_][a-z0-9_]{2,30}$
+method-rgx = [a-z_][a-z0-9_]{2,30}$
+attr-rgx = [a-z_][a-z0-9_]{2,30}$
+argument-rgx = [a-z_][a-z0-9_]{2,30}$
+variable-rgx = [a-z_][a-z0-9_]{2,30}$
+const-rgx = ([A-Z_][A-Z0-9_]*)|(__.*__)
+module-rgx = ([a-z_][a-z0-9_]*)|(__.*__)
+class-rgx = [A-Z][a-zA-Z0-9]+$
+
+[TYPECHECK]
+ignored-modules = pandas,numpy
+ignored-classes = numpy.*,pandas.*
+
+[DESIGN]
+max-args = 7
+max-branches = 12
+max-locals = 15
+max-statements = 60
+
+[SIMILARITIES]
+min-similarity-lines = 6
+ignore-comments = yes
+ignore-docstrings = yes
+ignore-imports = yes
+
+[IMPORTS]
+allow-wildcard-with-all = no
+
+[EXCEPTIONS]
+overgeneral-exceptions = builtins.Exception
