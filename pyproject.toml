@@ -8,13 +8,16 @@ authors = [
   { name = "Marco Alice" }
 ]
 
-[project.optional-dependencies]
-dev = [
-  "black==25.11.0",
-  "pylint==4.0.3",
-  "pre-commit==4.4.0"
-]
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
 
 [tool.black]
 line-length = 88
 target-version = ["py314"]
+
+[tool.isort]
+profile = "black"
+
+[tool.setuptools.packages.find]
+where = ["src"]

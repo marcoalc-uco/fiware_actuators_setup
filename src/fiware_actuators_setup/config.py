@@ -7,8 +7,8 @@ Orion Context Broker y otros componentes del ecosistema FIWARE.
 La configuración se carga desde variables de entorno.
 """
 
+from pydantic import ConfigDict, Field
 from pydantic_settings import BaseSettings
-from pydantic import Field
 
 
 class Settings(BaseSettings):
@@ -28,19 +28,21 @@ class Settings(BaseSettings):
         Tiempo máximo permitido para peticiones HTTP.
     """
 
-    iota_base_url: str = Field(default="http://localhost:4061")
-    orion_base_url: str = Field(default="http://localhost:1026")
+    model_config = ConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+    )
 
-    fiware_service: str = Field(default="openiot")
-    fiware_servicepath: str = Field(default="/")
-    fiware_resource: str = Field(default="/iot/d")
+    iota_base_url: str = Field(default="http://localhost:4061", alias="IOTA_URL")
+    orion_base_url: str = Field(default="http://localhost:1026", alias="ORION_URL")
 
-    request_timeout: int = Field(default=5)
+    fiware_service: str = Field(default="openiot", alias="FIWARE_SERVICE")
+    fiware_servicepath: str = Field(default="/", alias="FIWARE_SERVICEPATH")
+    fiware_resource: str = Field(default="/iot/d", alias="FIWARE_RESOURCE")
 
-    class Config:
-        """Configuración de variables de entorno."""
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    api_token: str | None = Field(default=None, alias="MY_TOKEN")
+
+    request_timeout: int = Field(default=5, alias="TIMEOUT")
 
 
 # Instancia global y reutilizable
