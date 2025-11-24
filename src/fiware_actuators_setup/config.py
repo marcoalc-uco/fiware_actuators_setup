@@ -1,10 +1,10 @@
-"""Configuración centralizada para atuadores FIWARE.
+"""Centralized configuration for FIWARE actuators.
 
-Este módulo define la clase Settings, que carga y valida la
-configuración de entorno necesaria para interactuar con el IoT Agent,
-Orion Context Broker y otros componentes del ecosistema FIWARE.
+This module defines the ``Settings`` class, which loads and validates the
+environment configuration required to interact with the IoT Agent,
+Orion Context Broker, and other components of the FIWARE ecosystem.
 
-La configuración se carga desde variables de entorno.
+Configuration is loaded from environment variables.
 """
 
 from pydantic import ConfigDict, Field
@@ -12,20 +12,20 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    """Carga y valida la configuración del sistema.
+    """Load and validate the system configuration.
 
-    Atributos
-    ---------
+    Attributes
+    ----------
     iota_base_url : str
-        URL del IoT Agent (UL). Incluye protocolo y puerto.
+        URL of the IoT Agent (UL). Includes protocol and port.
     orion_base_url : str
-        URL del Orion Context Broker.
+        URL of the Orion Context Broker.
     fiware_service : str
-        Nombre del servicio FIWARE.
+        FIWARE service name.
     fiware_servicepath : str
-        Ruta del service path FIWARE.
+        FIWARE service-path.
     request_timeout : int
-        Tiempo máximo permitido para peticiones HTTP.
+        Maximum allowed time for HTTP requests.
     """
 
     model_config = ConfigDict(
@@ -45,5 +45,5 @@ class Settings(BaseSettings):
     request_timeout: int = Field(default=5, alias="TIMEOUT")
 
 
-# Instancia global y reutilizable
+# Global reusable instance
 settings = Settings()

@@ -1,25 +1,44 @@
-# Carpetas de caché
-__pycache__/
-.pytest_cache/
-*.pyc
+# --- PyInstaller ---
+dist/
+build/
+*.spec
 
-# Configuración de VS Code
+# --- Python ---
+__pycache__/
+cache/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.mypy_cache/
+
+# Pytest cache
+.pytest_cache/
+
+# VS Code configuration
 .vscode/
 
-# Archivos temporales de sistema operativo
+# Operating system temporary files
 *.log
 *.tmp
 .DS_Store
 Thumbs.db
 
-# Archivos generados por Docker
+# Docker-generated files
 *.pid
 
-# Variables de entorno
-*.egg-info/
-.env
-.venv
+# Environment variables
+*.env
 
-# Archivos de datos
-**/*.csv
-**/*.json
+# Python packages
+*.egg-info/
+.venv/
+
+# Pre-commit cache
+.pre-commit-cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Custom directories and files
+SQL/
