@@ -55,5 +55,6 @@ repos:
         language: python
         types: [python]
         stages: [pre-push]
+        pass_filenames: false
         args: ["-q"]
         additional_dependencies: []
