@@ -29,7 +29,7 @@ def test_create_valid_device():
 
 
 def test_device_requires_at_least_one_command():
-    """Test that device contains at least one commad"""
+    """Test that device contains at least one command"""
     with pytest.raises(ValueError):
         Device(
             device_id="dev001",
