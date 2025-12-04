@@ -25,13 +25,13 @@ def test_create_valid_Service():
 
     service = IoTService(
         apikey=device.apikey,
-        cbroker="http://localhost:1026",
+        cbroker="http://orion:1026",
         entity_type=device.entity_type,
         resource="/iot/d",
     )
 
     assert service.apikey == device.apikey
-    assert service.cbroker == "http://localhost:1026"
+    assert service.cbroker == "http://orion:1026"
     assert service.entity_type == device.entity_type
     assert service.resource == "/iot/d"
 
@@ -41,6 +41,6 @@ def test_service_missing_required_fields():
     with pytest.raises(ValidationError):
         IoTService(
             apikey="mqtt0001",
-            cbroker="http://localhost:1026",
+            cbroker="http://orion:1026",
             resource="/iot/d",
         )

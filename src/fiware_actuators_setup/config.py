@@ -33,8 +33,8 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
     )
 
-    iota_base_url: str = Field(default="http://localhost:4061", alias="IOTA_URL")
-    orion_base_url: str = Field(default="http://localhost:1026", alias="ORION_URL")
+    iota_base_url: str = Field(default="http://iot-agent:4061", alias="IOTA_URL")
+    orion_base_url: str = Field(default="http://orion:1026", alias="ORION_URL")
 
     fiware_service: str = Field(default="openiot", alias="FIWARE_SERVICE")
     fiware_servicepath: str = Field(default="/", alias="FIWARE_SERVICEPATH")

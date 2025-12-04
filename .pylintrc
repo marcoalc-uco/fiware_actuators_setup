@@ -1,6 +1,7 @@
 [MASTER]
 ignore=.venv,venv,build,dist,__pycache__,.git,.mypy_cache,.pytest_cache,htmlcov
 ignore-patterns=^setup\.py$,^docs/.*,^notebooks/.*,^data/raw/.*
+ignore-paths=tests
 load-plugins=pylint.extensions.docstyle,pylint.extensions.docparams,pylint.extensions.mccabe,pylint.extensions.set_membership
 extension-pkg-allow-list=pandas,numpy
 persistent=yes
