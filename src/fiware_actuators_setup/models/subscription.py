@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Any, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -27,12 +27,12 @@ class Subject(BaseModel):
     ----------
     entities : List[EntityRef]
         List of entities to subscribe to.
-    condition : dict, optional
+    condition : dict[str, Any], optional
         Condition to trigger the subscription (e.g. changed attributes).
     """
 
     entities: List[EntityRef]
-    condition: Optional[dict] = None
+    condition: Optional[dict[str, Any]] = None
 
 
 class NotificationHttp(BaseModel):

@@ -2,6 +2,7 @@ import logging
 
 import requests
 
+from fiware_actuators_setup.config import Settings
 from fiware_actuators_setup.models.device import Device
 from fiware_actuators_setup.models.service import IoTService
 
@@ -29,7 +30,7 @@ class IoTAgentClient:
         }
 
     @classmethod
-    def from_settings(cls, settings) -> "IoTAgentClient":
+    def from_settings(cls, settings: Settings) -> "IoTAgentClient":
         """Create a client instance using a Settings object.
 
         Parameters
@@ -72,7 +73,8 @@ class IoTAgentClient:
     def create_service_group(self, service_group: IoTService) -> None:
         """Create a service group in the IoT Agent.
 
-        Args:
+        Parameters
+        ----------
             service_group: The ServiceGroup model to create.
         """
         url = f"{self._base_url}/iot/services"
@@ -91,7 +93,8 @@ class IoTAgentClient:
     def provision_device(self, device: Device) -> None:
         """Provision a device in the IoT Agent.
 
-        Args:
+        Parameters
+        ----------
             device: The Device model to provision.
         """
         url = f"{self._base_url}/iot/devices"

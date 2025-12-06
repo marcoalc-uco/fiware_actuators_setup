@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Literal
+from typing import Any, List, Literal
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -39,7 +39,7 @@ class Device(BaseModel):
         apikey link device to service.
     commands : list[Command]
         Actuator command list. Must not be empty.
-    attributes : list[dict]
+    attributes : list[dict[str, Any]]
         Optional list of device attributes.
     """
 
@@ -50,7 +50,7 @@ class Device(BaseModel):
     protocol: str = Field(..., min_length=1)
     apikey: str = Field(..., min_length=1)
     commands: List[Command]
-    attributes: List[dict] | None = Field(default=None)
+    attributes: List[dict[str, Any]] | None = Field(default=None)
 
     @model_validator(mode="after")
     def validate_commands(self) -> Device:

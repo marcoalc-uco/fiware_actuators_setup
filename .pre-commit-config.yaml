@@ -36,6 +36,18 @@ repos:
           - typing_extensions==4.15.0
         stages: [pre-commit]
 
+  # --- MYPY ---
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.10.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - pydantic
+          - pydantic-settings
+          - types-requests
+        args: ["--config-file=pyproject.toml"]
+        stages: [pre-commit]
+
   # --- PRE-COMMIT HOOKS  ---
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0

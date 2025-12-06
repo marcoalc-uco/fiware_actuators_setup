@@ -7,8 +7,8 @@ Orion Context Broker, and other components of the FIWARE ecosystem.
 Configuration is loaded from environment variables.
 """
 
-from pydantic import ConfigDict, Field
-from pydantic_settings import BaseSettings
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -28,7 +28,7 @@ class Settings(BaseSettings):
         Maximum allowed time for HTTP requests.
     """
 
-    model_config = ConfigDict(
+    model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
     )
