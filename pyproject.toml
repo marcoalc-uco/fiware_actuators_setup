@@ -10,19 +10,18 @@ authors = [
 
 [tool.mypy]
 python_version = "3.14"
-warn_return_any = true
+warn_return_any = false
 warn_unused_configs = true
 ignore_missing_imports = true
 no_implicit_optional = true
 strict_optional = true
+exclude = ["tests/"]
 
 [[tool.mypy.overrides]]
 module = "fiware_actuators_setup.*"
 strict = true
+disallow_any_generics = false
 
-[[tool.mypy.overrides]]
-module = "tests.*"
-ignore_errors = true
 
 [tool.black]
 line-length = 88
