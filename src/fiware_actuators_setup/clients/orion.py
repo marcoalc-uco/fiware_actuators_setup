@@ -35,9 +35,14 @@ class OrionClient:
         self._service = fiware_service
         self._servicepath = fiware_servicepath
         self._request_timeout = request_timeout
+        # Base headers for GET/DELETE requests
         self._headers = {
             "fiware-service": self._service,
             "fiware-servicepath": self._servicepath,
+        }
+        # Headers with Content-Type for POST/PATCH requests
+        self._headers_json = {
+            **self._headers,
             "Content-Type": "application/json",
         }
 
@@ -245,7 +250,10 @@ class OrionClient:
 
         try:
             response = requests.post(
-                url, headers=self._headers, json=payload, timeout=self._request_timeout
+                url,
+                headers=self._headers_json,
+                json=payload,
+                timeout=self._request_timeout,
             )
             response.raise_for_status()
             location = response.headers.get("Location", "")
@@ -333,7 +341,10 @@ class OrionClient:
 
         try:
             response = requests.patch(
-                url, headers=self._headers, json=updates, timeout=self._request_timeout
+                url,
+                headers=self._headers_json,
+                json=updates,
+                timeout=self._request_timeout,
             )
             response.raise_for_status()
             logger.info(f"Subscription updated successfully: {subscription_id}")
