@@ -1,0 +1,159 @@
+# =============================================================================
+# FIWARE Stack for Integration Testing
+# =============================================================================
+# This docker-compose is for local testing of the fiware_actuators_setup client.
+# Run with: docker-compose up -d
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # MongoDB - Database for Orion and IoT Agent
+  # ---------------------------------------------------------------------------
+  mongodb:
+    image: mongo:6.0
+    hostname: mongodb
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    networks:
+      - fiware
+    command: --bind_ip_all
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # Orion Context Broker
+  # ---------------------------------------------------------------------------
+  orion:
+    image: fiware/orion:3.12.0
+    hostname: orion
+    container_name: orion
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - fiware
+    ports:
+      - "1026:1026"
+    command: -dbhost mongodb -logLevel DEBUG
+    healthcheck:
+      test: curl --fail http://localhost:1026/version || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # Mosquitto MQTT Broker
+  # ---------------------------------------------------------------------------
+  mosquitto:
+    image: eclipse-mosquitto:2.0.20
+    hostname: mosquitto
+    container_name: mosquitto
+    restart: unless-stopped
+    networks:
+      - fiware
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./docker/config/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+
+  # ---------------------------------------------------------------------------
+  # IoT Agent UltraLight
+  # ---------------------------------------------------------------------------
+  iotagent-ul:
+    image: fiware/iotagent-ul:3.6.0
+    hostname: iotagent-ul
+    container_name: iotagent-ul
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    networks:
+      - fiware
+    ports:
+      - "4061:4061"
+      - "7896:7896"
+    volumes:
+      - ./docker/config/iot-agent/config.js:/opt/iotaul/config.js:ro
+
+  # ---------------------------------------------------------------------------
+  # QuantumLeap - Time Series API
+  # ---------------------------------------------------------------------------
+  quantumleap:
+    image: fiware/quantum-leap:1.0.0
+    hostname: quantumleap
+    container_name: quantumleap
+    restart: unless-stopped
+    depends_on:
+      - cratedb
+    networks:
+      - fiware
+    ports:
+      - "8668:8668"
+    environment:
+      - CRATE_HOST=cratedb
+      - LOGLEVEL=DEBUG
+
+  # ---------------------------------------------------------------------------
+  # CrateDB - Time Series Database
+  # ---------------------------------------------------------------------------
+  cratedb:
+    image: crate:5.9.5
+    hostname: cratedb
+    container_name: cratedb
+    restart: unless-stopped
+    networks:
+      - fiware
+    ports:
+      - "4200:4200"
+      - "4300:4300"
+      - "5432:5432"
+    command: >
+      crate -Cauth.host_based.enabled=false -Ccluster.name=democluster -Chttp.cors.enabled=true -Chttp.cors.allow-origin="*"
+    environment:
+      - CRATE_HEAP_SIZE=2g
+    volumes:
+      - cratedb_data:/data
+
+  # ---------------------------------------------------------------------------
+  # Grafana - Visualization (Optional)
+  # ---------------------------------------------------------------------------
+  grafana:
+    image: grafana/grafana:11.4.0
+    hostname: grafana
+    container_name: grafana
+    restart: unless-stopped
+    depends_on:
+      - cratedb
+    networks:
+      - fiware
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_LOG_LEVEL=warn
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  fiware:
+    driver: bridge
+
+# =============================================================================
+# Volumes
+# =============================================================================
+volumes:
+  mongodb_data:
+  cratedb_data:
