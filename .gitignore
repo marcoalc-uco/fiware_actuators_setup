@@ -15,6 +15,10 @@ cache/
 # Pytest cache
 .pytest_cache/
 
+# Coverage reports
+.coverage
+htmlcov/
+
 # VS Code configuration
 .vscode/
 
