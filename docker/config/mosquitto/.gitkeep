@@ -1,0 +1,2 @@
+# Mosquitto MQTT Broker Configuration
+# This file will be mounted into the Mosquitto container

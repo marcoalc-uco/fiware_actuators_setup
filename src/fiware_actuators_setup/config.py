@@ -1,47 +1,49 @@
-"""Configuración centralizada para atuadores FIWARE.
+"""Centralized configuration for FIWARE actuators.
 
-Este módulo define la clase Settings, que carga y valida la
-configuración de entorno necesaria para interactuar con el IoT Agent,
-Orion Context Broker y otros componentes del ecosistema FIWARE.
+This module defines the ``Settings`` class, which loads and validates the
+environment configuration required to interact with the IoT Agent,
+Orion Context Broker, and other components of the FIWARE ecosystem.
 
-La configuración se carga desde variables de entorno.
+Configuration is loaded from environment variables.
 """
 
-from pydantic_settings import BaseSettings
 from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    """Carga y valida la configuración del sistema.
+    """Load and validate the system configuration.
 
-    Atributos
-    ---------
+    Attributes
+    ----------
     iota_base_url : str
-        URL del IoT Agent (UL). Incluye protocolo y puerto.
+        URL of the IoT Agent (UL). Includes protocol and port.
     orion_base_url : str
-        URL del Orion Context Broker.
+        URL of the Orion Context Broker.
     fiware_service : str
-        Nombre del servicio FIWARE.
+        FIWARE service name.
     fiware_servicepath : str
-        Ruta del service path FIWARE.
+        FIWARE service-path.
     request_timeout : int
-        Tiempo máximo permitido para peticiones HTTP.
+        Maximum allowed time for HTTP requests.
     """
 
-    iota_base_url: str = Field(default="http://localhost:4061")
-    orion_base_url: str = Field(default="http://localhost:1026")
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+    )
 
-    fiware_service: str = Field(default="openiot")
-    fiware_servicepath: str = Field(default="/")
-    fiware_resource: str = Field(default="/iot/d")
+    iota_base_url: str = Field(default="http://iot-agent:4061", alias="IOTA_URL")
+    orion_base_url: str = Field(default="http://orion:1026", alias="ORION_URL")
 
-    request_timeout: int = Field(default=5)
+    fiware_service: str = Field(default="openiot", alias="FIWARE_SERVICE")
+    fiware_servicepath: str = Field(default="/", alias="FIWARE_SERVICEPATH")
+    fiware_resource: str = Field(default="/iot/d", alias="FIWARE_RESOURCE")
 
-    class Config:
-        """Configuración de variables de entorno."""
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    api_token: str | None = Field(default=None, alias="MY_TOKEN")
+
+    request_timeout: int = Field(default=5, alias="TIMEOUT")
 
 
-# Instancia global y reutilizable
+# Global reusable instance
 settings = Settings()

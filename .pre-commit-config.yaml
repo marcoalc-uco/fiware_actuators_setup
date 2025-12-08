@@ -1,31 +1,73 @@
 repos:
+  # --- ISORT  ---
+  - repo: https://github.com/pycqa/isort
+    rev: 7.0.0
+    hooks:
+      - id: isort
+        name: isort (sort imports)
+        language_version: python3.14
+        args: ["--profile=black"]
+        additional_dependencies: []
+        stages: [pre-commit]
+
+  # --- BLACK ---
   - repo: https://github.com/psf/black
     rev: 25.11.0
     hooks:
       - id: black
         language_version: python3.14
+        additional_dependencies: []
+        stages: [pre-commit]
 
-  - repo: https://github.com/PyCQA/pylint
-    rev: v4.0.3
+  # --- PYLINT ---
+  - repo: local
     hooks:
       - id: pylint
-        additional_dependencies:
-          - pylint==4.0.3
+        name: pylint (local)
+        entry: .venv/Scripts/pylint.exe
+        language: python
+        types: [python]
         args:
           - "--rcfile=.pylintrc"
+        additional_dependencies:
+          - pylint==4.0.3
+          - pydantic==2.12.4
+          - pydantic-settings==2.12.0
+          - typing_extensions==4.15.0
+        stages: [pre-commit]
 
+  # --- MYPY ---
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.10.0
+    hooks:
+      - id: mypy
+        exclude: ^tests/
+        additional_dependencies:
+          - pydantic
+          - pydantic-settings
+          - types-requests
+        args: ["--config-file=pyproject.toml"]
+        stages: [pre-commit]
+
+  # --- PRE-COMMIT HOOKS  ---
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
 
-  - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+  # --- PYTEST pre-push --
+  - repo: local
     hooks:
-      - id: isort
-        name: isort (sort imports)
-        language_version: python3.14
-        args:
-          - "--profile=black"
+      - id: pytest-full
+        name: pytest full suite
+        entry: .venv/Scripts/pytest.exe
+        language: python
+        types: [python]
+        stages: [pre-push]
+        pass_filenames: false
+        args: ["-q"]
+        additional_dependencies: []

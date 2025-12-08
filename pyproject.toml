@@ -1,20 +1,38 @@
 [project]
 name = "fiware_actuators_setup"
 version = "0.1.0"
-description = "Utilities for managing FIWARE actuators."
+description = "Utilities for managing FIWARE devices."
 readme = "README.md"
 requires-python = ">=3.14"
 authors = [
   { name = "Marco Alice" }
 ]
 
-[project.optional-dependencies]
-dev = [
-  "black==25.11.0",
-  "pylint==4.0.3",
-  "pre-commit==4.4.0"
-]
+[tool.mypy]
+python_version = "3.14"
+warn_return_any = false
+warn_unused_configs = true
+ignore_missing_imports = true
+no_implicit_optional = true
+strict_optional = true
+exclude = ["tests/"]
+
+[[tool.mypy.overrides]]
+module = "fiware_actuators_setup.*"
+strict = true
+disallow_any_generics = false
+
 
 [tool.black]
 line-length = 88
 target-version = ["py314"]
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
