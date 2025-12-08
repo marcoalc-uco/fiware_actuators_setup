@@ -5,14 +5,13 @@ from unittest.mock import MagicMock, patch
 import pytest
 import requests
 
-from fiware_actuators_setup.clients.iot_agent import IoTAgentClient
+from fiware_actuators_setup.clients import IoTAgentClient
 from fiware_actuators_setup.exceptions import (
     IoTAgentClientError,
     IoTAgentNotFoundError,
     IoTAgentServerError,
 )
-from fiware_actuators_setup.models.device import Command, Device
-from fiware_actuators_setup.models.service import IoTService
+from fiware_actuators_setup.models import Command, Device, IoTService
 
 # =============================================================================
 # Fixtures

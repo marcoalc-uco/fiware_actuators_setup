@@ -3,7 +3,7 @@
 These tests validate the creation of valid subscriptions beetwen orion and quantum leap.
 """
 
-from fiware_actuators_setup.models.subscription import (
+from fiware_actuators_setup.models import (
     EntityRef,
     Notification,
     NotificationHttp,

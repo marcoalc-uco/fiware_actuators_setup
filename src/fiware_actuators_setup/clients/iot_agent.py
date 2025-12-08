@@ -13,8 +13,7 @@ from fiware_actuators_setup.exceptions import (
     IoTAgentNotFoundError,
     IoTAgentServerError,
 )
-from fiware_actuators_setup.models.device import Device
-from fiware_actuators_setup.models.service import IoTService
+from fiware_actuators_setup.models import Device, IoTService
 
 logger = logging.getLogger(__name__)
 
