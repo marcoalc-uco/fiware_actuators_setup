@@ -33,6 +33,10 @@ Thumbs.db
 
 # Environment variables
 *.env
+!.env.example
+.env.*
+*.key
+secrets/
 
 # Python packages
 *.egg-info/
