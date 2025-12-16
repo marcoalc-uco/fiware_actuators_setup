@@ -9,9 +9,10 @@ Python SDK for provisioning actuators and managing context data through the **FI
 3. [Configuration](#configuration)
 4. [Local FIWARE stack](#local-fiware-stack)
 5. [Quick start](#quick-start)
-6. [Running tests](#running-tests)
-7. [Project layout](#project-layout)
-8. [Documentation](#documentation)
+6. [Makefile commands](#makefile-commands)
+7. [Running tests](#running-tests)
+8. [Project layout](#project-layout)
+9. [Documentation](#documentation)
 
 ## 📋 Requirements
 
@@ -56,14 +57,14 @@ TIMEOUT=10
 
 Key variables:
 
-| Variable | Purpose | Default |
-| --- | --- | --- |
-| `ORION_URL` | Orion Context Broker base URL | `http://orion:1026` |
-| `IOTA_URL` | IoT Agent base URL | `http://iot-agent:4061` |
-| `FIWARE_SERVICE` | Tenant name | `openiot` |
-| `FIWARE_SERVICEPATH` | Sub-service path | `/` |
-| `FIWARE_RESOURCE` | IoT Agent resource path | `/iot/d` |
-| `TIMEOUT` | HTTP request timeout (seconds) | `5` |
+| Variable             | Purpose                        | Default                 |
+| -------------------- | ------------------------------ | ----------------------- |
+| `ORION_URL`          | Orion Context Broker base URL  | `http://orion:1026`     |
+| `IOTA_URL`           | IoT Agent base URL             | `http://iot-agent:4061` |
+| `FIWARE_SERVICE`     | Tenant name                    | `openiot`               |
+| `FIWARE_SERVICEPATH` | Sub-service path               | `/`                     |
+| `FIWARE_RESOURCE`    | IoT Agent resource path        | `/iot/d`                |
+| `TIMEOUT`            | HTTP request timeout (seconds) | `5`                     |
 
 ## 🐳 Local FIWARE Stack
 
@@ -118,6 +119,30 @@ iot_agent.create_device(device)
 entities = orion.list_entities()
 print(entities)
 ```
+
+## 🛠️ Makefile Commands
+
+This project includes a Makefile with common development tasks. Run `make help` to see all available commands:
+
+| Command                 | Description                                |
+| ----------------------- | ------------------------------------------ |
+| `make help`             | Show available commands                    |
+| `make install`          | Install production dependencies            |
+| `make install-dev`      | Install all dependencies + pre-commit      |
+| `make test`             | Run all tests                              |
+| `make test-unit`        | Run only unit tests (no integration)       |
+| `make test-integration` | Run only integration tests                 |
+| `make lint`             | Run pylint on source code                  |
+| `make format`           | Format code with isort and black           |
+| `make type-check`       | Run mypy type checking                     |
+| `make pre-commit`       | Run all pre-commit hooks                   |
+| `make docker-up`        | Start FIWARE services                      |
+| `make docker-down`      | Stop FIWARE services                       |
+| `make docker-logs`      | Show container logs                        |
+| `make clean`            | Remove cache and temp files                |
+| `make all`              | Run format + lint + type-check + test-unit |
+
+> **Note (Windows):** Requires [GnuWin32 Make](http://gnuwin32.sourceforge.net/packages/make.htm) installed and added to PATH.
 
 ## 🧪 Running Tests
 
